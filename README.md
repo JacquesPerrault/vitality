@@ -43,9 +43,9 @@ var jqxhr = $.ajax({
 })
 ```
 
-The openWorks API will *always* return a status code of 200.  
+The Vitality API will *always* return a status code of 200.  
 It is up to the developer to check the value of the `success` attribute of the response object to test for success or failure.  
-Refer to the endpoint documentation, as well as the the [Error documentation](#errors) for details.
+Refer to the endpoint documentation for details.
 
 ## TO CREATE A NEW FEATURE/FIX
 ```
