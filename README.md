@@ -16,7 +16,9 @@ npm install
 2. Open the copy and modify or add projects using the format in the sample file.  GitHub orgs **will not work** at this time.
 3. Create a copy of `/config/config-sample.js`
 4. Open the copy and replace the values in square brackets [] with actual values.
-5. Execute the following at the command line: `swagger project start`
+5. Create and initialize the database **Cloudant instructions TBD**
+6. **remote hosts only** Modify the `host` attribute in `/swagger/api/swagger.yaml` to point at the host (name or ip) serving the API
+7. Execute the following at the command line: `swagger project start`
 
 ## DOCUMENTATION
 You can view and modify documentation by entering the following at the command line: `swagger project edit`
