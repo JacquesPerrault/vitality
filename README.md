@@ -12,13 +12,12 @@ npm install
 ## RUNNING 
 **Before** you run for the first time
 
-1. Create a copy of `/public/javascript/orgs-sample.js`
-2. Open the copy and modify or add projects using the format in the sample file.  GitHub orgs **will not work** at this time.
-3. Create a copy of `/config/config-sample.js`
-4. Open the copy and replace the values in square brackets [] with actual values.
-5. Create and initialize the database **Cloudant instructions TBD**
-6. **remote hosts only** Modify the `host` attribute in `/swagger/api/swagger.yaml` to point at the host (name or ip) serving the API
-7. Execute the following at the command line: `swagger project start`
+1. Create a copy of `/public/javascript/orgs-sample.js`, then add projects using the format in the sample file.  GitHub orgs **will not work** at this time.
+2. Create a copy of `/config/config-sample.js`, then replace the values in square brackets [] with actual values.
+3. Modify the `appConfig` and `orgs` variables in `server.js` to point at the files you created in steps 1 & 2.
+4. Create and initialize the database **(instructions TBD)**
+5. **remote hosts only** Modify the `host` attribute in `/swagger/api/swagger.yaml` to point at the host (name or ip) serving the API
+6. Execute the following at the command line: `swagger project start`
 
 ## DOCUMENTATION
 You can view and modify documentation by entering the following at the command line: `swagger project edit`
@@ -65,3 +64,4 @@ git add -p
 git commit -m "meaningful message"
 git push -u origin meaningful-name-of-branch   (-u is only needed the first time)
 ```
+Then create a new Pull Request pointing at the branch to be merged.
