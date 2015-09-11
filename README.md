@@ -10,13 +10,18 @@ npm install
 ```
 
 ## RUNNING 
-`swagger project start`
+**Before** you run for the first time
+1. Create a copy of `/public/javascript/orgs-sample.js`
+2. Open the copy and modify or add projects using the format in the sample file.  GitHub orgs **will not work** at this time.
+3. Create a copy of `/config/config-sample.js`
+4. Open the copy and replace the values in square brackets [] with actual values.
+5. Execute the following at the command line: `swagger project start`
 
 ## DOCUMENTATION
-`swagger project edit`
+You can view and modify documentation by entering the following at the command line: `swagger project edit`
 
 ## CONSUMING
-All endpoints should be called as shown below:
+Vitality supports cross-domain requests.  The code below demonstrates how to make a cross domain requests using jQuery:
 
 ``` javascript
 var callback = function(data) {  
