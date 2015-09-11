@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+    <head>
+        <link rel="stylesheet" href="/css/app.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link href="/css/tidy-table.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.css">
+
+        <style type="text/css">
+        body {
+            font-family: verdana, sans-serif;
+        }
+        </style>
+    </head>
+    <body>
+      <h1>OT<b>dash</b>board</h1>
+      <h3>Make your selections, and click "Load data"</h3>
+      <br>
+      <div class="container">
+        <div class="row show-grid">
+        <div class="col-md-5"><b>Select a query</b></div>
+        <div class="col-md-3"><b>Select one or more repos</b></div>
+        <div class="col-md-4"><b>Select a timeframe</b></div>
+      </div>
+      <div class="container">
+        <div class="row show-grid">
+          <div class="col-md-5">
+            <input type="radio" id="getrawrepoactivity" name="radio"><label for="getrawrepoactivity">REPO ACTIVITY</label><br>
+            <input type="radio" id="getrawcommitactivity" name="radio"><label for="getrawcommitactivity">COMMIT ACTIVITY</label><br>
+ <!--           <input type="radio" id="getcommits1" name="radio"><label for="getcommits1">COMMIT COUNT by COMMITTER since INTERVAL</label><br>
+            <input type="radio" id="radio3" name="radio"><label for="radio3">COMMIT COUNT by REPO since INTERVAL</label><br>
+            <input type="radio" id="radio4" name="radio"><label for="radio4">COMMIT TOTALS, INTERNAL, since INTERVAL</label><br>
+            <input type="radio" id="radio5" name="radio"><label for="radio5">COMMIT TOTALS, EXTERNAL, since INTERVAL</label><br>
+            <input type="radio" id="radio6" name="radio"><label for="radio6">COMMIT LIST by COMITTER since INTERVAL</label><br>
+            <input type="radio" id="radio7" name="radio"><label for="radio7">COMMITTERS, by NAME</label><br>
+            <input type="radio" id="radio8" name="radio"><label for="radio8">COMMITTERS, INTERNAL, by NAME</label><br>
+            <input type="radio" id="radio9" name="radio"><label for="radio9">COMMITTERS, EXTERNAL, by NAME</label><br>
+            <input type="radio" id="radio10" name="radio"><label for="radio10">COMMITER COUNT</label><br>
+            <input type="radio" id="radio11" name="radio"><label for="radio11">COMMITTER COUNT by REPO</label><br> -->
+          </div>
+          <div class="col-md-3">
+            <div id="format">
+              <input type="checkbox" id="facebook/react"><label for="check1">facebook/react</label><br>
+              <input type="checkbox" id="facebook/react-native"><label for="check2">facebook/react-native</label><br>
+              <input type="checkbox" id="facebook/relay"><label for="check3">facebook/relay</label><br>
+              <input type="checkbox" id="facebook/flow"><label for="check4">facebook/flow</label><br>
+              <input type="checkbox" id="facebook/flux"><label for="check5">facebook/flux</label><br>
+              <input type="checkbox" id="facebook/graphql"><label for="check6">facebook/graphql</label><br>
+              <input type="checkbox" id="facebook/componentkit"><label for="check7">facebook/componentkit</label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            This feature not yet implemented<br>
+            <label for="from">From</label><input type="text" id="from" name="from"><br>
+            <label for="to">to</label><input type="text" id="to" name="to">
+          </div>
+        </div>
+      </div>
+      <div><button id="btnShow" class="btn btn-default" type="submit">Load data</button></div>
+      <div><h3>Click a colum header to change sort order</h3></div>
+      <div id="tidy-table" name="tidy-table"></div>
+      <div id="visualization"></div>
+      <div style="text-align: center" id="legend"></div>
+      <div style="text-align: center" id="zoomEnd"></div>
+
+      <!-- ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+      <script src="/javascript/tidy-table.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.js"></script>
+
+      <script type="text/javascript">
+        $(function () {
+          var container = document.getElementById('visualization');
+          var groups = new vis.DataSet();
+          
+          groups.add({id: 0, content: "group0"})
+          groups.add({id: 1, content: "group1"})
+          groups.add({id: 2, content: "group2"})
+
+          var items = [
+            {x: '2014-06-11', y: 10, group:0},
+            {x: '2014-06-12', y: 25, group:0},
+            {x: '2014-06-13', y: 30, group:0},
+            {x: '2014-06-14', y: 10, group:0},
+            {x: '2014-06-15', y: 15, group:0},
+            {x: '2014-06-16', y: 30, group:0},
+            {x: '2014-06-11', y: 12, group:1},
+            {x: '2014-06-12', y: 15, group:1},
+            {x: '2014-06-13', y: 34, group:1},
+            {x: '2014-06-14', y: 24, group:1},
+            {x: '2014-06-15', y: 5,  group:1},
+            {x: '2014-06-16', y: 12, group:1},
+            {x: '2014-06-11', y: 22, group:2},
+            {x: '2014-06-12', y: 14, group:2},
+            {x: '2014-06-13', y: 24, group:2},
+            {x: '2014-06-14', y: 21, group:2},
+            {x: '2014-06-15', y: 30, group:2},
+            {x: '2014-06-16', y: 18, group:2}
+          ];
+
+          var dataset = new vis.DataSet(items);
+          var options = {
+            style:'bar',
+            stack:true,
+            barChart: {width:50, align:'center', sideBySide:true}, // align: left, center, right
+            drawPoints: false,
+            dataAxis: {
+              icons:true
+            },
+            orientation:'top',
+            start: '2014-06-10',
+            end: '2014-06-18'
+          };
+          var graph2d = new vis.Graph2d(container, items, groups, options);
+
+
+          $("#btnShow").click(function(event) {
+
+            var callback = function(data) {
+              result = $.parseJSON(data);
+              if (result.success) {
+                payload = $.parseJSON(result.data);
+                var columnTitles = [];
+                var columnValues = [];
+                $.each(payload, function( index, value ) {
+                  var tmpArray = [];
+                  $.each( value, function( key, value ) {
+                    if (index === 0) columnTitles.push(key);
+                    tmpArray.push(value);
+                  })
+                  columnValues.push(tmpArray);
+                });
+                //console.log(columnValues);
+
+                var block = $('#tidy-table');
+                block.TidyTable('destroy');
+                block.TidyTable({
+                  enableCheckbox: true,
+                  enableMenu:     false
+                },
+                {
+                  columnTitles: columnTitles,
+                  columnValues: columnValues,
+
+                  // pre-process column values before sort (optional)
+                  sortByPattern: function(col_num, val) {
+                    if (col_num != 1) return val;
+
+                    return String(val).replace(/$|%|#/g, '');
+                  }
+                });
+
+                // copy the table options menu
+                var menu = $('select.tidy_table', block).clone(true);
+                block.append(menu);
+
+                // optional animation
+                block.slideDown('fast');
+              } else {
+                errorcallback(data)
+              }
+            }
+
+            var errorcallback = function(error) {
+              // handle the error
+              return false;
+            }
+
+            var repo = []
+            $('input:checkbox:checked').each(function(){
+              if (this.checked) repo.push(encodeURIComponent($(this).attr('id')));
+            });
+            console.log(repo);
+            var url = '/' + $('input:radio[name="radio"]:checked').attr('id');
+            
+            
+            var data = 'repo=' + repo.toString();
+            var jqxhr = $.ajax({
+              url: url,
+              dataType: "jsonp",
+              crossDomain: true,
+              data: data,
+              success: callback
+            })
+          })
+          
+
+
+          $( "#from" ).datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+              $( "#to" ).datepicker( "option", "minDate", selectedDate );
+            }
+          });
+          $( "#to" ).datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+              $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+            }
+          });
+        });
+      </script>
+    </body>
+</html>

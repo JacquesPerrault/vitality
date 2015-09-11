@@ -1,0 +1,803 @@
+swagger: "2.0"
+info:
+  title: Vitality
+  version: v1
+#host: my.remote.host
+host: localhost:3000
+basePath: /
+schemes:
+  - http
+  - https
+consumes:
+- application/json
+- application/javascript
+produces:
+- application/json
+- application/javascript
+- text/javascript
+paths:
+  /loadallrepos:
+    x-swagger-router-controller: core_loadallrepos
+    get:
+      summary: Initialize the application with repository data
+      description: |
+        Initializes the application by loading information for select repositories into the application state; forks are filtered out. 
+      operationId: loadallrepos
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/loadallreposResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getrepos:
+    x-swagger-router-controller: core_getrepos
+    get:
+      summary: Get all repostories
+      description: |
+        Returns all repository data currently stored in application memory
+      operationId: getrepos
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getreposResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getrepobyid/{id}:
+    x-swagger-router-controller: core_getrepobyid
+    get:
+      summary: Get data for a specific repository
+      description: |
+        Returns an array of commit counts, by month, for a specific repository.  The most recent six months of data is returned by default, up to 12 months can be returned via the 'count' parameter.
+      operationId: getrepobyid
+      parameters:
+        - name: id
+          in: path
+          description: The GitHub ID of the repository to be queried
+          required: true
+          type: integer
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getrepoResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getcommits/{id}:
+    x-swagger-router-controller: core_getcommits
+    get:
+      summary: Get commit counts for a specific repository
+      description: |
+        Returns an array of commit counts, by month, for a specific repository.  The most recent six months of data is returned by default, up to 12 months can be returned via the 'count' parameter.
+      operationId: getcommits
+      parameters:
+        - name: id
+          in: path
+          description: The GitHub ID of the repository to be queried
+          required: true
+          type: integer
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+        - name: count
+          in: query
+          description: An integer between 1 and 12, inclusive.
+          required: false
+          type: integer
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getcommitsResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /storecommitactivity:
+    x-swagger-router-controller: core_storecommitactivity
+    get:
+      summary: Send commit activity to a persistent data store
+      description: |
+        Send commit activity to a persistent data store.
+      operationId: storecommitactivity
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /storerepoactivity:
+    x-swagger-router-controller: core_storerepoactivity
+    get:
+      summary: Send repo activity to a persistent data store
+      description: |
+        Send repo activity to a persistent data store.
+      operationId: storerepoactivity
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/SuccessResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getrawrepoactivity:
+    x-swagger-router-controller: stats_getrawrepoactivity
+    get:
+      summary: Get all activity data for one or more repositories
+      description: |
+        Get all activity data for one or more repositories.  Ommitting the 'repo' parameter will return data for all available repositories.
+      operationId: getrawrepoactivity
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+        - name: repo
+          in: query
+          description: Comma-seperated string of repository names
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getrawrepoactivityResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getrawcommitactivity:
+    x-swagger-router-controller: stats_getrawcommitactivity
+    get:
+      summary: Get all commit data for one or more repositories
+      description: |
+        Get all commit data for one or more repositories.  Ommitting the 'repo' parameter will return data for all available repositories.
+      operationId: getrawcommitactivity
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+        - name: repo
+          in: query
+          description: Comma-seperated string of repository names
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getrawcommitactivityResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getcommittercountbyrepo:
+    x-swagger-router-controller: stats_getcommittercountbyrepo
+    get:
+      summary: Get unique commiter counts for each repository
+      description: |
+        Get unique commiter counts for each repository
+      operationId: getcommittercountbyrepo
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getcommittercountbyrepoResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getcommitcountbyrepo:
+    x-swagger-router-controller: stats_getcommitcountbyrepo
+    get:
+      summary: Get commit count for each repository
+      description: |
+        Get commit count for each repository.
+      operationId: getcommitcountbyrepo
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getcommitcountbyrepoResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /getcommitsbycommitter:
+    x-swagger-router-controller: stats_getcommitsbycommitter
+    get:
+      summary: Get internal/external commits
+      description: |
+        Get internal/external commits.
+      operationId: getcommitsbycommitter
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getcommitsbycommitterResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /vis/getcommitsbyrepo:
+    x-swagger-router-controller: visjs_getcommitsbyrepo
+    get:
+      summary: Get commit count for each repository by date, formatted for consumption by visJS
+      description: |
+        Get commit count for each repository by date.  Results are returned in a format that is readily consumable by VisJS.
+      operationId: getcommitsbyrepo
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getcommitsbyrepoResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /vis/getcommittertotals:
+    x-swagger-router-controller: visjs_getcommittertotals
+    get:
+      summary: Get internal/external committer counts grouped by week, formatted for consumption by visJS
+      description: |
+        Get internal/external committer counts grouped by week.  Results are returned in a format that is readily consumable by VisJS.
+      operationId: getcommittertotals
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getcommittertotalsResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+  /vis/getcommittotals:
+    x-swagger-router-controller: visjs_getcommittotals
+    get:
+      summary: Get internal/external commit counts grouped by week, formatted for consumption by visJS
+      description: |
+        Get internal/external commit counts grouped by week.  Results are returned in a format that is readily consumable by VisJS.
+      operationId: getcommittotals
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getcommittotalsResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
+definitions:
+  ErrorResponse:
+    type: string
+    required:
+      - success
+      - message
+    properties:
+      success:
+        type: string
+      message:
+        type: string
+      nativemessage:
+        type: string
+      nativecode:
+        type: integer
+
+
+
+  SuccessResponse:
+    type: string
+    required:
+      - success
+    properties:
+      success:
+        type: string
+
+
+
+  loadallreposResponse:
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: boolean
+      data:
+        type: object
+        required:
+          - nextrefresh
+        properties:
+          nextrefresh:
+            type: integer
+
+
+
+  Repo:
+    type: object
+    required:
+      - id
+      - url
+      - html_url
+      - created_at
+      - name
+      - full_name
+      - description
+      - language
+      - open_issues_count
+      - forks_count
+      - stargazers_count
+      - watchers_count
+      - branch_count
+      - contributors_count
+      - release_count
+      - pushed_at
+      - pull_count
+    properties:
+      id:
+        type: integer
+      url:
+        type: string
+      html_url:
+        type: string
+      created_at:
+        type: string
+      name:
+        type: string
+      full_name:
+        type: string
+      description:
+        type: string
+      language:
+        type: string
+      open_issues_count:
+        type: integer
+      forks_count:
+        type: integer
+      stargazers_count:
+        type: integer
+      watchers_count:
+        type: integer
+      branch_count:
+        type: integer
+      contributors_count:
+        type: integer
+      release_count:
+        type: integer
+      pushed_at:
+        type: string
+      pull_count:
+        type: integer
+
+
+
+  ShortRepo:
+    type: object
+    required:
+      - created
+      - repoid
+      - reponame
+      - open_issues
+      - forks
+      - stargazers
+      - watchers
+    properties:
+      created:
+        type: string
+      repoid:
+        type: integer
+      reponame:
+        type: string
+      open_issues:
+        type: integer
+      forks:
+        type: integer
+      stargazers:
+        type: integer
+      watchers:
+        type: integer
+
+
+
+  getreposResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: boolean
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/Repo"
+
+
+  getrepoResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: boolean
+      data:
+        type: object
+        items:
+          $ref: "#/definitions/Repo"
+
+
+
+  getrawrepoactivityResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: boolean
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/ShortRepo"
+
+
+
+  CommitActivity:
+    type: object
+    required:
+      - reponame
+      - date
+      - name
+    properties:
+      reponame:
+        type: string
+      date:
+        type: string
+      name:
+        type: string
+
+
+
+  getrawcommitactivityResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: boolean
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/CommitActivity"
+
+
+
+  CommitData:
+    type: object
+    required:
+      - month
+      - count
+    properties:
+      month:
+        type: string
+      count:
+        type: integer
+
+
+
+  getcommitsResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/CommitData"
+
+
+
+  CommitterCountData1:
+    type: object
+    required:
+      - unique_committers
+      - reponame
+    properties:
+      unique_committers:
+        type: integer
+      reponame:
+        type: string
+
+
+
+  getcommittercountbyrepoResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/CommitterCountData1"
+ 
+ 
+ 
+  CommitterCountData2:
+    type: object
+    required:
+      - name
+      - ibm
+      - reponame
+      - date
+    properties:
+      name:
+        type: string
+      ibm:
+        type: integer
+      reponame:
+        type: string
+      date:
+        type: string
+
+
+
+  getcommitsbycommitterResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/CommitterCountData2"
+
+
+
+  CommitCountData:
+    type: object
+    required:
+      - commit_count
+      - reponame
+    properties:
+      commit_count:
+        type: integer
+      reponame:
+        type: string
+
+
+
+  getcommitcountbyrepoResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/CommitCountData"
+
+
+
+  VisData1:
+    type: object
+    required:
+      - y
+      - x
+      - group
+    properties:
+      y:
+        type: integer
+      x:
+        type: string
+      group:
+        type: string
+
+
+
+  getcommitsbyrepoResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/VisData1"
+
+
+
+  VisData2:
+    type: object
+    required:
+      - y
+      - x
+      - group
+    properties:
+      y:
+        type: integer
+      x:
+        type: string
+      group:
+        type: integer
+
+
+
+  getcommittertotalsResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/VisData2"
+
+
+
+  getcommittotalsResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: array
+        items:
+          $ref: "#/definitions/VisData2"

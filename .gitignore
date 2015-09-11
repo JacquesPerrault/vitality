@@ -1,0 +1,4 @@
+node_modules/
+config/config-ibm.js
+public/javascript/orgs-facebook.js
+public/javascript/orgs-ibm.js

@@ -1,0 +1,60 @@
+{
+ "name": "flare",
+ "children": [
+  {
+   "name": "dwoTrends",
+   "children": [
+    {
+     "name": "maximilien",
+     "children": [
+      {"name": "date",
+       "children": [
+        {"name": "01/01/2015",
+         "children": [
+          {"name": "in", "size": 8},
+          {"name": "out", "size": 2}
+         ]
+        }
+       ]
+      },
+      {"name": "date",
+       "children": [
+        {"name": "01/02/2015",
+         "children": [
+          {"name": "in", "size": 4},
+          {"name": "out", "size": 1}
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "name": "jasnell",
+     "children": [
+      {"name": "date",
+       "children": [
+        {"name": "02/01/2015",
+         "children": [
+          {"name": "in", "size": 12},
+          {"name": "out", "size": 5}
+         ]
+        }
+       ]
+      },
+      {"name": "date",
+       "children": [
+        {"name": "02/02/2015",
+         "children": [
+          {"name": "in", "size": 3},
+          {"name": "out", "size": 6}
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
