@@ -9,7 +9,7 @@ npm install -g swagger
 npm install
 ```
 
-## RUNNING
+## RUNNING 
 `swagger project start`
 
 ## DOCUMENTATION
