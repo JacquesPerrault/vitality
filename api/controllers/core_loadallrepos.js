@@ -66,8 +66,7 @@ function getRepo(org, token) {
               'stargazers_count': repos[repo].stargazers_count || 0,
               'watchers_count': repos[repo].subscribers_count || 0
             });
-            //console.log('---REPO:' + repos[repo].full_name);
-            console.log('---REPO API URL:' + uri);
+            //console.log('---REPO API URL:' + uri);
 
           } else {
             console.log('---IGNORING FORK: ' + JSON.stringify({'id': repos[repo].id, 'full_name': repos[repo].full_name, 'url': repos[repo].html_url}));

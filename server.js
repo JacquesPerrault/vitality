@@ -3,6 +3,18 @@
 // serverjs
 // This file contains the server side JavaScript code for your application.
 
+// global variables
+allrepos            = [];
+useAuth             = false;
+useCouch            = true;
+useSQL              = false;
+passport            = require('passport'); // Authentication
+
+// CHANGE THIS TO POINT AT YOUR CONFIG AND ORG FILES
+appConfig       = require('./config/config-sample');
+orgs            = require('./public/javascript/orgs-sample'); // list of projects to track
+
+
 var flash           = require('connect-flash');
 var express         = require('express'),
   bodyparser        = require('body-parser'),
@@ -20,17 +32,60 @@ var cfenv           = require('cfenv');
 var SwaggerExpress  = require('swagger-express-mw');
 var mysql           = require('mysql');
 var appEnv          = cfenv.getAppEnv();
+var nano            = require('nano')(appConfig.couch.host);
 
 
-// global variables
-allrepos            = []; 
-useAuth             = false;
-passport            = require('passport'); // Authentication
+// INITIALIZE COUCHDB
+var db_name = appConfig.couch.db;
+var db = nano.use(db_name);
 
-// CHANGE THIS TO POINT AT YOUR CONFIG AND ORG FILES
-appConfig       = require('./config/config-sample');
-orgs            = require('./public/javascript/orgs-sample'); // list of projects to track
+nano.db.list(function(err, body) {
+  console.log('--- COUCHDB: LIST OF DATABASES: ' + body);
+});
+function check_db(tried) {
+  nano.db.get(db_name, function (err,body) {
+    if(err) {
+      if(err.message === 'no_db_file'  && tried < 1) {
+        console.log('--- COUCHDB: ' + db_name + ' does not exist - the database will be created.');
+        // create database and retry
+        return nano.db.create(db_name, function () {
+          check_db(tried+1);
+        });
+      }
+      else { return console.log(err); }
+    }
+    db = nano.use(db_name);
+    // request all documents in database
+    nano.request(
+      { db  : db_name,
+        path: '_all_docs'
+      },
+      // delete all documents in database
+      function(err, docs) {
+        var deleteDocs = [];
+        docs.rows.forEach(function(doc) {
+          var _doc      = {}
+          _doc._id      = doc.id;
+          _doc._rev     = doc.value.rev;
+          _doc._deleted =true;
+          deleteDocs.push(_doc);
+        });
+        var req_body = {};
+        req_body.docs = deleteDocs;
+        //console.log(req_body);  // these are the documents that will be deleted
+        nano.request(
+          { db    : db_name,
+            path  : '_bulk_docs',
+            method: 'post',
+            body  : req_body
+          });
+      });
+    nano.db.compact(db_name); // compact the db
+    console.log(body); // list db info
+  });
+}
 
+check_db(0);
 
 // for mysql
 pool = mysql.createPool({

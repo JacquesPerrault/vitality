@@ -23,7 +23,7 @@ npm install
 You can view and modify documentation by entering the following at the command line: `swagger project edit`
 
 ## CONSUMING
-Vitality supports cross-domain requests.  The code below demonstrates how to make a cross domain requests using jQuery:
+Vitality supports cross-domain requests.  The code below demonstrates how to make a cross domain request using jQuery:
 
 ``` javascript
 var callback = function(data) {  
