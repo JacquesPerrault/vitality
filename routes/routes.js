@@ -54,11 +54,11 @@ module.exports = function(app, passport) {
 
 
   // =====================================
-  // HOME PAGE (with login links) ========
+  // STATUS PAGE =========================
   // =====================================
   //app.get('/index1', isLoggedIn, function(req, res) {
-  app.get('/index1', function(req, res) {
-    res.render('index1.ejs',  {profile: req.session.passport.user, // get the user out of session and pass to template
+  app.get('/status', function(req, res) {
+    res.render('status.ejs',  {profile: req.session.passport.user, // get the user out of session and pass to template
                              authenticated: req.isAuthenticated(),
                              useAuth: useAuth
     });

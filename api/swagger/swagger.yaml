@@ -71,7 +71,7 @@ paths:
     get:
       summary: Get data for a specific repository
       description: |
-        Returns an array of commit counts, by month, for a specific repository.  The most recent six months of data is returned by default, up to 12 months can be returned via the 'count' parameter.
+        Returns all data for a specific repository
       operationId: getrepobyid
       parameters:
         - name: id
@@ -316,6 +316,31 @@ paths:
 
 
 
+  /getaggregateactivity:
+    x-swagger-router-controller: stats_getaggregateactivity
+    get:
+      summary: Get aggregate activity data
+      description: |
+        Get aggregate activity data.
+      operationId: getaggregateactivity
+      parameters:
+        - name: callback
+          in: query
+          description: Passed by .ajax call for cross-domain requests
+          required: false
+          type: string
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: "#/definitions/getaggregateactivityResponse"
+        400:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+
   /vis/getcommitsbyrepo:
     x-swagger-router-controller: visjs_getcommitsbyrepo
     get:
@@ -549,8 +574,7 @@ definitions:
         type: boolean
       data:
         type: object
-        items:
-          $ref: "#/definitions/Repo"
+        $ref: "#/definitions/Repo"
 
 
 
@@ -657,9 +681,9 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/CommitterCountData1"
- 
- 
- 
+
+
+
   CommitterCountData2:
     type: object
     required:
@@ -692,6 +716,58 @@ definitions:
         type: array
         items:
           $ref: "#/definitions/CommitterCountData2"
+
+
+
+  AggregateCommitData:
+    type: object
+    required:
+      - commits
+      - date
+    properties:
+      commits:
+        type: integer
+      date:
+        type: string
+
+
+
+  AggregateActivityData:
+    type: object
+    required:
+      - commits
+      - total_projects
+      - total_contributors
+      - total_forks
+      - total_pull_requests
+    properties:
+      commits:
+        type: array
+        items:
+          $ref: "#/definitions/AggregateCommitData"
+      total_projects:
+        type: integer
+      total_contributors:
+        type: integer
+      total_forks:
+        type: integer
+      total_pull_requests:
+        type: integer
+
+
+
+  getaggregateactivityResponse:
+    #type: object  // replaced with type:string to allow JSONP response
+    type: string
+    required:
+      - success
+      - data
+    properties:
+      success:
+        type: string
+      data:
+        type: object
+        $ref: "#/definitions/AggregateActivityData"
 
 
 

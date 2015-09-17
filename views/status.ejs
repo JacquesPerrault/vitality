@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+    <head>
+      <link rel="stylesheet" href="/css/app.css" />
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+      <link href="/css/tidy-table.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.7.0/vis.min.css">
+    </head>
+    <body>
+      <div class="container-fluid" style="background-color: #7FA8FF">
+        <div class="container-fluid" style="background-color: #1A63FF">
+            <h1 style="color: #ADC7FF">OT<b>dash</b>board</h1>
+            <div class="container" style="background-color: white">
+              <div class="row">
+                <div class="col-md-12"><h5>Vitality Operational Dashboard</h5></div>
+              </div>
+            </div>
+        </div>
+        <div class="container" style="background-color: white">
+          <div class="row">
+            <div class="col-md-12"><h3>Data source</h3><h4>by day</h4><div id="datasource"></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><hr></div>
+          </div>
+          <div class="row">
+            <div class="col-md-4"><h3>Rate Limit</h3><div id="ratelimit"></div></div>
+            <div class="col-md-8"><div id="committertotals"></div></div>
+          </div>
+          <div class="row">
+            <div class="col-md-12"><hr></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+
+      <script type="text/javascript">
+        $(function () {
+          
+          var callback = function(data) {
+            result = data; //$.parseJSON(data);
+            payload = result.data.resources.core;
+            console.log(payload); 
+            var limit     = '<div>Limit: ' + payload.limit + '</div>'; 
+            var remaining = '<div>Remaining: ' + payload.remaining + '</div>'; 
+            var millis    = (payload.reset * 1000) - Date.now();
+            var reset     = '<div>Reset: ' + Math.round(millis / 1000 / 60) + ' minutes</div>';
+
+            $('#ratelimit').html(limit+remaining+reset);
+          }
+
+          var errorcallback = function(error) {
+            // handle the error
+            return false;
+          }
+          
+          var jqxhr = $.ajax({
+            url: 'https://api.github.com/rate_limit',
+            dataType: "jsonp",
+            crossDomain: true,
+            data: {
+              'client_id': 'bbb325ae65b3ab398149',
+              'client_secret': 'f4aaae6c2f4c95eea386e28d4d85cbf6f1aaf86d'
+            },
+            success: callback
+          })
+        });
+      </script>
+    </body>
+</html>
