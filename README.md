@@ -9,6 +9,9 @@ npm install -g swagger
 npm install
 ```
 
+## DOCUMENTATION
+You can view and modify documentation immediately after following the INSTALLING instructions;  simply enter the following at the command line: `swagger project edit`
+
 ## RUNNING 
 **Before** you run for the first time
 
@@ -18,9 +21,6 @@ npm install
 4. Create and initialize the database **(instructions TBD)**
 5. **remote hosts only** Modify the `host` attribute in `/swagger/api/swagger.yaml` to point at the host (name or ip) serving the API
 6. Execute the following at the command line: `swagger project start`
-
-## DOCUMENTATION
-You can view and modify documentation by entering the following at the command line: `swagger project edit`
 
 ## CONSUMING
 Vitality supports cross-domain requests.  The code below demonstrates how to make a cross domain request using jQuery:
