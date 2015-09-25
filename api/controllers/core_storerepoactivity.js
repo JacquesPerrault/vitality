@@ -1,10 +1,10 @@
 var Promise     = require('promise');
 
 module.exports = {
-        storecommitactivity: storecommitactivity
+        storerepoactivity: storerepoactivity
 }
 
-function storecommitactivity(req, res) {
+function storerepoactivity(req, res) {
   console.log('=====================================');
   console.log('STORE REPO ACTIVITY =================');
   console.log('=====================================');

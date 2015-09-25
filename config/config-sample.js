@@ -17,6 +17,10 @@ module.exports = {
     'verifyURL'         : '',
     'host'              : 'github.com'
   },
+    'couch': {
+    'db'                : 'vitality',
+    'host'              : 'http://localhost:5984'
+  },
   "VCAP_SERVICES": {
     "sqldb" : [
       {

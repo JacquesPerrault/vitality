@@ -67,6 +67,19 @@ module.exports = function(app, passport) {
 
 
   // =====================================
+  // TEST PAGE =========================
+  // =====================================
+  //app.get('/vitality', isLoggedIn, function(req, res) {
+  app.get('/vitality', function(req, res) {
+    res.render('vitalityscatter.ejs',  {profile: req.session.passport.user, // get the user out of session and pass to template
+                             authenticated: req.isAuthenticated(),
+                             useAuth: useAuth
+    });
+  });
+
+
+
+  // =====================================
   // LOGIN ===============================
   // =====================================
 
@@ -112,61 +125,5 @@ module.exports = function(app, passport) {
       // if they aren't redirect them to the login page
       res.redirect('/', { authenticated: false});
   }
-
-
-
-  // =====================================
-  // GET COMMITS BY SCATTER ==============
-  // =====================================
-  app.get('/getcommitsbyscatter', function(req, res) {
-    console.log('=====================================');
-    console.log('GET COMMITS BY SCATTER ==============');
-    console.log('=====================================');
-
-    var callback = req.query.callback;
-    var token   = (useAuth === true) ? req.session.passport.user.user.token : "abcde"; // end user oauth token
-    var repo    = {};
-
-    if (allrepos.length === 0 ) {
-      var error = {'success': false, 'message': 'Please load repository data first.', 'code': 230 };
-      res.send(200, callback + '(\'' + JSON.stringify(error) + '\')');
-    } else {
-      var query = '';
-      var promise = new Promise(function (resolve, reject) {
-        query = 'SELECT a.reponame AS "group" FROM commits a, committers b WHERE DATE(date) >= DATE_SUB(CURRENT_DATE,INTERVAL 4 WEEK) AND a.name=b.name GROUP BY a.reponame ORDER BY COUNT(a.name) DESC LIMIT 8';
-        pool.query(query, function(err, result) {
-          if (err) reject(err);
-          else resolve(result);
-        })
-      })
-      .then(function(result){
-          tmpArr = [];
-          for (var i=0; i < result.length; i++) {
-            tmpArr.push(result[i].group);
-          }
-        var promise = new Promise(function (resolve, reject) {
-          query = 'SELECT COUNT(a.name) AS y, DATE(a.date) AS x, a.reponame AS "group" FROM commits a, committers b WHERE a.reponame IN (' + pool.escape(tmpArr) + ') AND a.name=b.name GROUP BY a.reponame ORDER BY a.date ASC';
-          pool.query(query, function(err, result) {
-            if (err) reject(err);
-            else resolve(result);
-          })
-        })
-        .then(function(result){
-          var retVal = {};
-          retVal.success = true;
-          retVal.data = result;
-          res.send(200, callback + '(\'' + JSON.stringify(retVal) + '\')');
-        })
-        .catch(function (reason) {
-          var error = {'success': false, 'message': 'Error: GET COMMIT TOTALS BY REPO', 'code': 231, 'nativemessage': reason.error.message, 'nativecode': reason.response.statusCode };
-          reject(reason);
-          res.send(200, callback + '(\'' + JSON.stringify(error) + '\')');
-        })
-      }).catch(function(reason){
-        var error = {'success': false, 'message': 'Error: GET COMMIT TOTALS BY REPO', 'code': 232, 'nativemessage': reason.message, 'nativecode': reason.code };
-        res.send(200, callback + '(\'' + JSON.stringify(error) + '\')');
-      })
-    }
-  });
 
 };
