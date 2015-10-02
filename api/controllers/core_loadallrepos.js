@@ -10,6 +10,76 @@ var refreshInterval = 3600000; // interval between data refesh, in milliseconds
 var lastRefreshDate = Date.now() - refreshInterval;
 
 
+function getReposFromOrg(org, token){
+  var deferred = new Promise(function(resolve, reject) {
+    var orgName = org.name;
+    var type = org.type;
+    var accessToken = (useAuth == true) ? "&access_token=" + token : '';
+    var data  = data || []; // interesting data that we persist
+    var repos = repos || []; // all data from GitHub, transient
+
+    // These client tokens are for a dummy app, and there is no user specific information that we get, so
+    // all in all, pretty safe to expose this here.
+
+    // there are three supported request types: org, user and repo. Syntax differs.
+    // org url:   https://api.github.com/orgs/:org
+    // repo url:  https://api.github.com/repos/:owner/:repo
+    // user url:  https://api.github.com/users/:username
+    var uri = "https://api.github.com/" + org.type + "s/" + orgName + "/repos"
+      + "?per_page=1000"
+      + accessToken
+      + "&client_id=" + appConfig.auth.clientID
+      + "&client_secret=" + appConfig.auth.clientSecret
+      + "&t=" + new Date().getTime();
+
+    var options = {
+      url: uri,
+      headers: {
+          'User-Agent': 'OpenWorks',
+          'Content-Type': 'application/json'
+      },
+      json: true
+    }
+
+    rp(options)
+    .then(function (result) {
+      if (!Array.isArray(result)) {
+        result = [].concat(result);
+      }
+      if (result && result.length > 0) {
+        // iterate through each repo in the result set
+        repos = repos.concat(result);
+        for (repo in repos) {
+          if ((repos[repo].fork === false) || (repos[repo].full_name === 'jasnell/activitystrea.ms')) {
+            data.push({
+              'name': repos[repo].full_name,
+              'type': 'repo'
+            });
+            //console.log('---REPO API URL:' + uri);
+
+          } else {
+            console.log('---IGNORING FORK: ' + JSON.stringify({'id': repos[repo].id, 'full_name': repos[repo].full_name, 'url': repos[repo].html_url}));
+          }
+        };
+
+        data.sort(function (a, b) {
+          if (a.name.toLowerCase() > b.name.toLowerCase()) {return 1;}
+          if (b.name.toLowerCase() > a.name.toLowerCase()) {return -1};
+          return 0;
+        });
+        console.log('---PASTE: ' + JSON.stringify(data));
+        resolve(data); // <--- happens LATER (event that Promise.all listens for)
+      }
+    })
+    .catch(function (reason) {
+      var error = {'message': 'openWorks has encountered an error while retrieving core repository data from GitHub.', 'code': 103, 'nativemessage': reason.error.message, 'nativecode': reason.response.statusCode };
+    })
+  });
+  return deferred; // <--- happens IMMEDIATELY (object that Promise.all listens on)
+}
+
+
+
 function getRepo(org, token) {
   var deferred = new Promise(function(resolve, reject) {
     var orgName = org.name;
@@ -298,7 +368,11 @@ function loadallrepos(req, res) {
     var promises = []; // create an array to hold our promises
 
     projects.forEach(function (org) {
-      promises.push(getRepo(org, token)); // <-- causes the promise to begin execution NOW
+      if ((org.type === 'org') || (org.type === 'user')) {
+        promises.push(getReposFromOrg(org,token));
+      } else {
+        promises.push(getRepo(org, token)); // <-- causes the promise to begin execution NOW
+      }
     });
 
     //------------------------------
