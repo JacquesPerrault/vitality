@@ -136,6 +136,7 @@ function getLastModified(requestUri, token, index) {
     var uri = requestUri
       + "?client_id=" + appConfig.auth.clientID
       + "&client_secret=" + appConfig.auth.clientSecret
+      + "&per_page=100"
       + accessToken;
     var options = {
       url: uri,

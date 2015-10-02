@@ -19,13 +19,14 @@ function storerepoactivity(req, res) {
     res.send(200, callback + '(\'' + JSON.stringify(error) + '\')');
   } else {
     for (i in allrepos) {
-      var query = 'INSERT INTO repoactivity (repoid, reponame, open_issues, forks, stargazers, watchers) VALUES (' +
+      var query = 'INSERT INTO repoactivity (repoid, reponame, open_issues, forks, stargazers, watchers, contributors) VALUES (' +
           allrepos[i].id + ',' +
           '"' + allrepos[i].full_name + '",' +
           (allrepos[i].open_issues_count || 0) + ',' +
           allrepos[i].forks_count + ',' +
           allrepos[i].stargazers_count + ',' +
-          allrepos[i].watchers_count + ')';
+          allrepos[i].watchers_count + ',' +
+          allrepos[i].contributors_count + ')';
       console.log('---QUERY: ' + query);
       var promise = new Promise(function (resolve, reject) {
         pool.query(query, function(err, result) {
