@@ -29,8 +29,7 @@ function getRepo(org, token) {
     var uri = "https://api.github.com/"+type+"s/" + orgName + reposcmd
       + "?per_page=1000"
       + accessToken
-      + "&client_id=" + appConfig.auth.clientID
-      + "&client_secret=" + appConfig.auth.clientSecret
+      + gittoken
       + "&t=" + new Date().getTime();
 
     var options = {
@@ -102,8 +101,7 @@ function getPulls(pullUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = pullUri
-      + "?client_id=" + appConfig.auth.clientID
-      + "&client_secret=" + appConfig.auth.clientSecret
+      + gittoken
       + accessToken;
     var options = {
       url: uri,
@@ -134,8 +132,7 @@ function getLastModified(requestUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = requestUri
-      + "?client_id=" + appConfig.auth.clientID
-      + "&client_secret=" + appConfig.auth.clientSecret
+      + gittoken
       + "&per_page=100"
       + accessToken;
     var options = {
@@ -180,8 +177,7 @@ function getReleaseCount(pullUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = pullUri
-      + "?client_id=" + appConfig.auth.clientID
-      + "&client_secret=" + appConfig.auth.clientSecret
+      + gittoken
       + accessToken;
     var options = {
       url: uri,
@@ -212,8 +208,7 @@ function getBranchCount(pullUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = pullUri
-      + "?client_id=" + appConfig.auth.clientID
-      + "&client_secret=" + appConfig.auth.clientSecret
+      + gittoken
       + accessToken;
     var options = {
       url: uri,
@@ -244,8 +239,7 @@ function getContributorsCount(org, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = "https://api.github.com/repos/" + org + '/contributors'
-      + "?client_id=" + appConfig.auth.clientID
-      + "&client_secret=" + appConfig.auth.clientSecret
+      + gittoken
       + accessToken;
     var options = {
       url: uri,
@@ -288,7 +282,7 @@ function loadallrepos(req, res) {
   var retVal = {};
   console.log('---USING SSO?: ' + useAuth);
   console.log('---TOKEN: ' + '?access_token=' + token);
-  console.log('---RATE LIMIT: ' + 'https://api.github.com/rate_limit?client_id=' + appConfig.auth.clientID + '&client_secret=' + appConfig.auth.clientSecret);
+  console.log('---RATE LIMIT: ' + 'https://api.github.com/rate_limit? {access token masked for security}');
   console.log('---LAST REFRESH: ' + DateTime.toDateTimeString(lastRefreshDate));
   console.log('---MINUTES TO NEXT REFRESH: ' + (nextRefreshDate ) / 1000 / 60);
 

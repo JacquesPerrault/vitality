@@ -9,8 +9,7 @@ function getCommitDetails(org, token, repoid) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = "https://api.github.com/repos/" + org + '/commits'
-      + "?client_id=" + config.auth.clientID
-      + "&client_secret=" + config.auth.clientSecret
+      + gittoken
       + accessToken
       + '&per_page=100';
     var options = {

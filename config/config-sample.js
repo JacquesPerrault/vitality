@@ -11,6 +11,7 @@ module.exports = {
     'tokenURL'          : 'https://github.com/login/oauth/access_token',
     'clientID'          : '[GitHub client/app ID]]',
     'clientSecret'      : '[GitHub client/app Secret]',
+    'clientToken'       : '[GitHub personal token]',
     'callbackURL'       : '[OAuth callback URL]',
     'state'             : '[state hash for passport]]',
     'requestTokenURL'   : 'https://github.com/login/oauth/access_token',
@@ -21,17 +22,17 @@ module.exports = {
     'db'                : 'vitality',
     'host'              : 'http://localhost:5984'
   },
-  "VCAP_SERVICES": {
-    "sqldb" : [
+  'VCAP_SERVICES': {
+    'sqldb' : [
       {
-        "credentials" : {
-          "connectionLimit"   : 1,
-          "port"              : 3306,
-          "db"                : "[database name]",
-          "username"          : "[database user]",
-          "host"              : "[database ip or hostname]",
-          "hostname"          : "[database hostname]",
-          "password"          : "[database password]"
+        'credentials' : {
+          'connectionLimit'   : 1,
+          'port'              : 3306,
+          'db'                : '[database name]',
+          'username'          : '[database user]',
+          'host'              : '[database ip or hostname]',
+          'hostname'          : '[database hostname]',
+          'password'          : '[database password]'
         }
       }
     ]
