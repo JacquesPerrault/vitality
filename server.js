@@ -33,7 +33,27 @@ var SwaggerExpress  = require('swagger-express-mw');
 var mysql           = require('mysql');
 var appEnv          = cfenv.getAppEnv();
 var nano            = require('nano')(appConfig.couch.host);
+var usePassport     = false;
 
+// set the token for GitHub queries
+if ((appConfig.auth.clientToken === '') && (appConfig.auth.clientID === '') && (appConfig.auth.clientSecret === '') ) {
+  console.log('---: GitHub credentials not provided.  You MUST provide a personal access token or a registered application id/secret.')
+  process.exit();
+}
+
+if ((appConfig.auth.clientToken === '') && ((conappConfigfig.auth.clientID === '') || (appConfig.auth.clientSecret === '') )) {
+  console.log('---: Incomplete GitHub credentials not provided.  You MUST provide a personal access token or a registered application id/secret.')
+  process.exit();
+}
+
+if ((appConfig.auth.clientID != '') && (appConfig.auth.clientSecret != '')){
+  gittoken = '?client_id=' + appConfig.auth.clientID + '&client_secret=' + appConfig.auth.clientSecret;
+  //console.log('---: Using REGISTERED APPLICATION credentials');
+}
+else {
+  gittoken = '?access_token=' + appConfig.auth.clientToken;
+  //console.log('---: Using PERSONAL ACCESSS token');
+}
 
 // INITIALIZE COUCHDB
 var db_name = appConfig.couch.db;
@@ -135,19 +155,21 @@ app.use(express.urlencoded());
 app.use(methodOverride());
 app.use(cookieParser(appConfig.session));
 
-// required for passport  
-app.use(session({ secret: appConfig.appInfo.session, cookie: {maxAge: 82800000 }, saveUninitialized: true, resave: true })); // session secret, 23 hour lifetime
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-
+if (usePassport) {
+  // required for passport
+  app.use(session({ secret: appConfig.appInfo.session, cookie: {maxAge: 82800000 }, saveUninitialized: true, resave: true })); // session secret, 23 hour lifetime
+  app.use(passport.initialize());
+  app.use(passport.session()); // persistent login sessions
+  app.use(flash()); // use connect-flash for flash messages stored in session
+}
 //app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/javascript',express.static(path.join(__dirname, 'public/javascript')));
 app.use('/stylesheets',express.static(path.join(__dirname, 'public/stylesheets')));
-require(path.join(__dirname, 'config/passport'))(passport); // pass passport for configuration
+
+if (usePassport) require(path.join(__dirname, 'config/passport'))(passport); // pass passport for configuration
 
 //var contextRoot = ibmconfig.getContextRoot();
 
