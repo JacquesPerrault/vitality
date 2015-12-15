@@ -24,7 +24,6 @@ module.exports = {
     {"name": "IBM-MIL/IBM-Ready-App-for-Telecommunications", "type": "repo"},
 	{"name": "IBM-MIL/IBM-Ready-App-for-Venue", "type": "repo"},
 	{"name": "IBM-MIL/IBM-Ready-App-for-Travel", "type": "repo"},
-    {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
     {"name": "shmul/mule", "type": "repo"},
     {"name": "ibm-bluemix-mobile-services/bms-clientsdk-android-core", "type": "repo"},
     {"name": "ibm-bluemix-mobile-services/bms-clientsdk-android-push", "type": "repo"},
@@ -47,6 +46,8 @@ module.exports = {
     {"name": "bradleyjeck/epanetReader", "type": "repo"},
     {"name": "andybalaam/git-history-data", "type": "repo"},
     {"name": "xdevops/ibm-containers-emulator", "type": "repo"},
-    {"name": "presence-insights/pi-clientsdk-android", "type": "repo"}
+    {"name": "presence-insights/pi-clientsdk-android", "type": "repo"},
+    {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
+    {"name": "ibm-security-innovation/crosscoap", "type": "repo"}
   ]
 };
