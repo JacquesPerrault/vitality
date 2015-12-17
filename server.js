@@ -41,7 +41,7 @@ if ((appConfig.auth.clientToken === '') && (appConfig.auth.clientID === '') && (
   process.exit();
 }
 
-if ((appConfig.auth.clientToken === '') && ((conappConfigfig.auth.clientID === '') || (appConfig.auth.clientSecret === '') )) {
+if ((appConfig.auth.clientToken === '') && ((appConfig.auth.clientID === '') || (appConfig.auth.clientSecret === '') )) {
   console.log('---: Incomplete GitHub credentials not provided.  You MUST provide a personal access token or a registered application id/secret.')
   process.exit();
 }
@@ -268,8 +268,8 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
 
   // install middleware
   swaggerExpress.register(app);
- 
-  
+
+
   // Custom error handler that returns JSON
   app.use(function(err, req, res, next) {
     if (typeof err !== 'object') {
