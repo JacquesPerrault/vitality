@@ -49,6 +49,7 @@ module.exports = {
     {"name": "presence-insights/pi-clientsdk-android", "type": "repo"},
     {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
     {"name": "ibm-security-innovation/crosscoap", "type": "repo"},
-    {"name": "nadgowdas/cargo", "type": "repo"}
+    {"name": "nadgowdas/cargo", "type": "repo"},
+    {"name": "ibmalchemy/cadf", "type": "repo"}
   ]
 };

@@ -11,8 +11,8 @@ useSQL              = false;
 passport            = require('passport'); // Authentication
 
 // CHANGE THIS TO POINT AT YOUR CONFIG AND ORG FILES
-appConfig       = require('./config/config-sample');
-orgs            = require('./public/javascript/orgs-sample'); // list of projects to track
+appConfig       = require('./config/config-dwo');
+orgs            = require('./public/javascript/orgs-dwo'); // list of projects to track
 
 
 var flash           = require('connect-flash');
