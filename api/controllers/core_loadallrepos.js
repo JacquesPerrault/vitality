@@ -139,7 +139,7 @@ function getLastModified(requestUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = requestUri
-      + "&per_page=100"
+      + "?per_page=100"
       + accessToken;
     var options = {
       url: uri,
@@ -160,8 +160,8 @@ function getLastModified(requestUri, token, index) {
       if (result && result.length > 0) {
         for (event in result) {
           if (result[event].type === "PushEvent") {
-            var created_at = result[event].created_at;
-            data.pushed_at = created_at !== 0 ? DateTime.toDateTimeString(new Date(created_at)) : 'null';
+            var created_at = result[event].created_at || '';
+            data.pushed_at = created_at !== '' ? DateTime.toDateTimeString(new Date(created_at)) : '';
             data.index = index;
             break;
           }
@@ -364,7 +364,11 @@ function loadallrepos(req, res) {
       Promise.all(lastmodifiedPromises)
       .then(function (dataArr) {
         for (var i = 0, len = dataArr.length; i < len; i++) {
-          allrepos[dataArr[i].index].pushed_at = dataArr[i].pushed_at;
+          if ( dataArr[i].pushed_at === '' ) {
+            allrepos[dataArr[i].index].pushed_at = allrepos[dataArr[i].index].created_at
+          } else {
+            allrepos[dataArr[i].index].pushed_at = dataArr[i].pushed_at;
+          }
         }
       })
       .catch(function (reason) {
