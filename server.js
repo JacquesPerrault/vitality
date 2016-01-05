@@ -47,15 +47,16 @@ if ((appConfig.auth.clientToken === '') && ((appConfig.auth.clientID === '') || 
 }
 
 if ((appConfig.auth.clientID != '') && (appConfig.auth.clientSecret != '')){
-  gittoken = '?client_id=' + appConfig.auth.clientID + '&client_secret=' + appConfig.auth.clientSecret;
+  gittoken = '&client_id=' + appConfig.auth.clientID + '&client_secret=' + appConfig.auth.clientSecret;
   //console.log('---: Using REGISTERED APPLICATION credentials');
 }
 else {
-  gittoken = '?access_token=' + appConfig.auth.clientToken;
+  gittoken = appConfig.auth.clientToken;
   //console.log('---: Using PERSONAL ACCESSS token');
 }
 
 // INITIALIZE COUCHDB
+/*
 var db_name = appConfig.couch.db;
 var db = nano.use(db_name);
 
@@ -106,6 +107,7 @@ function check_db(tried) {
 }
 
 check_db(0);
+*/
 
 // for mysql
 pool = mysql.createPool({
@@ -194,7 +196,8 @@ function initData() {
     host: host,
     port: port,
     path: '/loadallrepos',
-    method: 'GET'
+    method: 'GET',
+    simple: false
   };
 
   console.log('Initializing openWorks API...')
@@ -211,7 +214,8 @@ function storeCommitActivity() {
     host: host,
     port: port,
     path: '/storecommitactivity',
-    method: 'GET'
+    method: 'GET',
+    simple: false
   };
 
   console.log('Storing commit activity...')
@@ -228,7 +232,8 @@ function storeRepoActivity() {
     host: host,
     port: port,
     path: '/storerepoactivity',
-    method: 'GET'
+    method: 'GET',
+    simple: false
   };
 
   console.log('Storing repo activity...')
@@ -247,7 +252,7 @@ function storeRepoActivity() {
     console.log('---: Refreshed data at: ' + DateTime.toDateTimeString(Date.now()));
   }, 3600000);
 
-/*
+
   // set timer for periodic commit stats collection
   setInterval(function () {
     storeCommitActivity();
@@ -259,7 +264,7 @@ function storeRepoActivity() {
     storeRepoActivity();
     console.log('---: Repo activity updated at: ' + DateTime.toDateTimeString(Date.now()));
   }, 43200000);
-*/
+
 
 
 // Start server

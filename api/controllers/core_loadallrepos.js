@@ -29,11 +29,14 @@ function getRepo(org, token) {
     var uri = "https://api.github.com/"+type+"s/" + orgName + reposcmd
       + "?per_page=1000"
       + accessToken
-      + gittoken
       + "&t=" + new Date().getTime();
 
     var options = {
       url: uri,
+      qs: {
+        access_token: gittoken
+      },
+      simple: false,
       headers: {
           'User-Agent': 'OpenWorks',
           'Content-Type': 'application/json'
@@ -79,12 +82,13 @@ function getRepo(org, token) {
           return 0;
         });
 */
-        data.sort(function (a, b) {
+/*        data.sort(function (a, b) {
           if (a.name.toLowerCase() > b.name.toLowerCase()) {return 1;}
           if (b.name.toLowerCase() > a.name.toLowerCase()) {return -1};
           return 0;
         });
-
+*/
+        //console.log(JSON.stringify(data));
         resolve(data); // <--- happens LATER (event that Promise.all listens for)
       }
     })
@@ -101,10 +105,13 @@ function getPulls(pullUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = pullUri
-      + gittoken
       + accessToken;
     var options = {
       url: uri,
+      qs: {
+        access_token: gittoken
+      },
+      simple: false,
       headers: {
           'User-Agent': 'OpenWorks',
           'Content-Type': 'application/json'
@@ -132,11 +139,14 @@ function getLastModified(requestUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = requestUri
-      + gittoken
       + "&per_page=100"
       + accessToken;
     var options = {
       url: uri,
+      qs: {
+        access_token: gittoken
+      },
+      simple: false,
       headers: {
           'User-Agent': 'OpenWorks',
           'Content-Type': 'application/json'
@@ -177,10 +187,13 @@ function getReleaseCount(pullUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = pullUri
-      + gittoken
       + accessToken;
     var options = {
       url: uri,
+      qs: {
+        access_token: gittoken
+      },
+      simple: false,
       headers: {
           'User-Agent': 'OpenWorks',
           'Content-Type': 'application/json'
@@ -208,10 +221,13 @@ function getBranchCount(pullUri, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = pullUri
-      + gittoken
       + accessToken;
     var options = {
       url: uri,
+      qs: {
+        access_token: gittoken
+      },
+      simple: false,
       headers: {
           'User-Agent': 'OpenWorks',
           'Content-Type': 'application/json'
@@ -239,10 +255,13 @@ function getContributorsCount(org, token, index) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = "https://api.github.com/repos/" + org + '/contributors'
-      + gittoken
       + accessToken;
     var options = {
       url: uri,
+      qs: {
+        access_token: gittoken
+      },
+      simple: false,
       headers: {
           'User-Agent': 'OpenWorks',
           'Content-Type': 'application/json'
@@ -301,11 +320,12 @@ function loadallrepos(req, res) {
     Promise.all(promises) // <-- listens for promises to resolve or reject
     .then(function(dataArr) { // <-- happens once ALL promises resolve or reject
       allrepos = []; // flush the existing data
+      //console.log('get basic repository data');
       dataArr.forEach(function(repoArr) {
         repoArr.forEach(function(repo) {
           allrepos.push(repo);
         })
-      })
+      });
       return allrepos;
 
     //------------------------------
@@ -313,6 +333,7 @@ function loadallrepos(req, res) {
     //------------------------------
     }).then(function(repos) {
       var pullcountPromises = [];
+      //console.log('get repository pull counts');
       for (var i = 0, len = repos.length; i < len; i++) {
         pullcountPromises.push(getPulls(repos[i].url + '/pulls', token, i));
       }
@@ -335,6 +356,7 @@ function loadallrepos(req, res) {
     //------------------------------
     }).then(function(repos) {
       var lastmodifiedPromises = [];
+      //console.log('get last modified date');
       for (var i = 0, len = repos.length; i < len; i++) {
         lastmodifiedPromises.push(getLastModified(repos[i].url + '/events', token, i));
       }
@@ -357,6 +379,7 @@ function loadallrepos(req, res) {
     //------------------------------
     }).then(function(repos) {
       var releasecountPromises = [];
+      //console.log('get release count');
       for (var i = 0, len = repos.length; i < len; i++) {
         releasecountPromises.push(getReleaseCount(repos[i].url + '/releases', token, i));
       }
@@ -380,6 +403,7 @@ function loadallrepos(req, res) {
     //------------------------------
     }).then(function(repos) {
       var branchcountPromises = [];
+      //console.log('get branch count');
       for (var i = 0, len = repos.length; i < len; i++) {
         branchcountPromises.push(getBranchCount(repos[i].url + '/branches', token, i));
       }
@@ -401,6 +425,7 @@ function loadallrepos(req, res) {
     // get contributors count
     //------------------------------
     }).then(function(repos) {
+      //console.log('get contributors count');
       var contributorscountPromises = [];
       for (var i = 0, len = repos.length; i < len; i++) {
         contributorscountPromises.push(getContributorsCount(repos[i].full_name, token, i));

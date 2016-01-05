@@ -13,10 +13,13 @@ function getCommits(org, token, count) {
   var deferred = new Promise(function(resolve, reject) {
     var accessToken = (useAuth == true) ? "&access_token=" + token : '';
     var uri = "https://api.github.com/repos/" + org + '/commits'
-      + gittoken
       + accessToken;
     var options = {
       url: uri,
+      qs: {
+        access_token: gittoken
+      },
+      simple: false,
       headers: {
           'User-Agent': 'OpenWorks',
           'Content-Type': 'application/json'
