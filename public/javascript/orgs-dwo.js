@@ -50,6 +50,8 @@ module.exports = {
     {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
     {"name": "ibm-security-innovation/crosscoap", "type": "repo"},
     {"name": "nadgowdas/cargo", "type": "repo"},
-    {"name": "ibmalchemy/cadf", "type": "repo"}
+    {"name": "ibmalchemy/cadf", "type": "repo"},
+    {"name": "watson-developer-cloud/unity-sdk", "type": "repo"},
+    {"name": "watson-developer-cloud/ios-sdk", "type": "repo"}
   ]
 };
