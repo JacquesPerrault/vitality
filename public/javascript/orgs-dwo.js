@@ -1,6 +1,6 @@
 module.exports = {
    "projects": [
-    {"name": "SparkTC/systemml", "type": "repo"},
+    {"name": "apache/incubator-systemml", "type": "repo"},
     {"name": "litong01/Object-Storage-for-Bluemix", "type": "repo"},
     {"name": "node-red/node-red", "type": "repo"},
     {"name": "iqbalmohomed/clampify", "type": "repo"},
