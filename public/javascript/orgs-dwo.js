@@ -53,6 +53,6 @@ module.exports = {
     {"name": "ibmalchemy/cadf", "type": "repo"},
     {"name": "watson-developer-cloud/ios-sdk", "type": "repo"},
     {"name": "watson-developer-cloud/unity-sdk", "type": "repo"},
-    {"name": "watson-developer-cloud/java-sdk, "type": "repo"}
+    {"name": "watson-developer-cloud/java-sdk", "type": "repo"}
   ]
 };
