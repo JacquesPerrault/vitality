@@ -47,6 +47,7 @@ module.exports = {
     {"name": "andybalaam/git-history-data", "type": "repo"},
     {"name": "xdevops/ibm-containers-emulator", "type": "repo"},
     {"name": "presence-insights/pi-clientsdk-android", "type": "repo"},
+    {"name": "presence-insights/pi-clientsdk-ios", "type": "repo"},
     {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
     {"name": "ibm-security-innovation/crosscoap", "type": "repo"},
     {"name": "nadgowdas/cargo", "type": "repo"},
