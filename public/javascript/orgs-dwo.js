@@ -1,7 +1,5 @@
 module.exports = {
    "projects": [
-    {"name": "litong01/Object-Storage-for-Bluemix", "type": "repo"},
-    {"name": "iqbalmohomed/clampify", "type": "repo"},
     {"name": "apache/incubator-systemml", "type": "repo"},
     {"name": "node-red/node-red", "type": "repo"},
     {"name": "Brunel-Visualization/Brunel", "type": "repo"},
@@ -21,6 +19,9 @@ module.exports = {
     {"name": "shmul/mule", "type": "repo"},
     {"name": "ibmstorage/jcadf", "type": "repo"},
     {"name": "djwillia/solo5", "type": "repo"},
+    {"name": "quarks-edge/quarks", "type": "repo"},
+    {"name": "jamiejennings/rosie-pattern-language", "type": "repo"},
+    {"name": "repos/openblockchain/obc-peer", "type": "repo"},
     {"name": "IBM-MIL/IBM-Ready-App-for-Banking", "type": "repo"},
     {"name": "IBM-MIL/IBM-Ready-App-for-Retail", "type": "repo"},
     {"name": "IBM-MIL/IBM-Ready-App-for-Healthcare", "type": "repo"},
@@ -40,7 +41,6 @@ module.exports = {
     {"name": "cognitive-catalyst/qa-safe-strings", "type": "repo"},
     {"name": "watson-developer-cloud/node-sdk", "type": "repo"},
     {"name": "watson-developer-cloud/speech-android-sdk", "type": "repo"},
-    {"name": "watson-developer-cloud/speech-ios-sdk", "type": "repo"},
     {"name": "watson-developer-cloud/java-sdk", "type": "repo"},
     {"name": "watson-developer-cloud/ios-sdk", "type": "repo"},
     {"name": "watson-developer-cloud/unity-sdk", "type": "repo"},
@@ -56,6 +56,8 @@ module.exports = {
     {"name": "ibm-cds-labs/metrics-collector", "type": "repo"},
     {"name": "ibm-cds-labs/metrics-analytics", "type": "repo"},
     {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
-    {"name": "ibm-security-innovation/crosscoap", "type": "repo"}
+    {"name": "ibm-security-innovation/crosscoap", "type": "repo"},
+    {"name": "ibm-security-innovation/goldy", "type": "repo"},
+    {"name": "ibm-security-innovation/menagerie", "type": "repo"}
   ]
 };
