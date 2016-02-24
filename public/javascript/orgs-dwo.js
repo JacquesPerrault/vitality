@@ -23,6 +23,8 @@ module.exports = {
     {"name": "jamiejennings/rosie-pattern-language", "type": "repo"},
     {"name": "openblockchain/obc-peer", "type": "repo"},
     {"name": "openwhisk/openwhisk", "type": "repo"},
+    {"name": "ibm-research/iostash", "type": "repo"},
+    {"name": "aruniyengar/storage-client-library", "type": "repo"},
     {"name": "IBM-MIL/IBM-Ready-App-for-Banking", "type": "repo"},
     {"name": "IBM-MIL/IBM-Ready-App-for-Retail", "type": "repo"},
     {"name": "IBM-MIL/IBM-Ready-App-for-Healthcare", "type": "repo"},
