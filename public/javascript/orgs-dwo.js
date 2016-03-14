@@ -61,6 +61,7 @@ module.exports = {
     {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
     {"name": "ibm-security-innovation/crosscoap", "type": "repo"},
     {"name": "ibm-security-innovation/goldy", "type": "repo"},
-    {"name": "ibm-security-innovation/menagerie", "type": "repo"}
+    {"name": "ibm-security-innovation/menagerie", "type": "repo"},
+    {"name": "eclipse/omr", "type": "repo"}
   ]
 };
