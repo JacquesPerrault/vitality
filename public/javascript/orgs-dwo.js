@@ -67,6 +67,7 @@ module.exports = {
     {"name": "openblockchain/obc-peer", "type": "repo"},
     {"name": "ibm-security-innovation/goldy", "type": "repo"},
     {"name": "ibm-security-innovation/menagerie", "type": "repo"},
-    {"name": "eclipse/omr", "type": "repo"}
+    {"name": "eclipse/omr", "type": "repo"},
+    {"name": "ibm-xforce/xfe-node", "type": "repo"}
   ]
 };
