@@ -13,7 +13,7 @@ passport            = require('passport'); // Authentication
 // CHANGE THIS TO POINT AT YOUR CONFIG AND ORG FILES
 appConfig       = require('./config/config-dwo');
 orgs            = require('./public/javascript/orgs-dwo'); // list of projects to track
-
+gittoken            = '';
 
 var flash           = require('connect-flash');
 var express         = require('express'),
