@@ -69,6 +69,7 @@ module.exports = {
     {"name": "ibm-security-innovation/menagerie", "type": "repo"},
     {"name": "eclipse/omr", "type": "repo"},
     {"name": "ibm-xforce/xfe-node", "type": "repo"},
-    {"name": "radum2275/merlin", "type": "repo"}
+    {"name": "radum2275/merlin", "type": "repo"},
+    {"name": "os-cloud-storage/openstack-workload-disaster-recovery", "type": "repo"}
   ]
 };
