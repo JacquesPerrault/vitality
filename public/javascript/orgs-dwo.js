@@ -61,7 +61,6 @@ module.exports = {
     {"name": "ibm-cds-labs/metrics-analytics", "type": "repo"},
     {"name": "ibm-security-innovation/libsecurity-go", "type": "repo"},
     {"name": "ibm-security-innovation/crosscoap", "type": "repo"},
-    {"name": "nadgowdas/cargo", "type": "repo"},
     {"name": "watson-developer-cloud/unity-sdk", "type": "repo"},
     {"name": "watson-developer-cloud/ios-sdk", "type": "repo"},
     {"name": "openblockchain/obc-peer", "type": "repo"},
